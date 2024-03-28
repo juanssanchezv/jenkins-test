@@ -1,12 +1,12 @@
-node () {
-    stage ("Hello World"){
-        echo 'Hello World from Jenkins'
-    }
-}
-
-node ("jdk17 && x86 && linux")
+node ("jdk17")
 {
-    stage ("Hello AWS"){
-        echo "Hello World from AWS"
+    stage ("Checkout"){
+        checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/juanssanchezv/jenkins-test.git']])
+    }
+    stage ("Terraform init") {
+        sh "terraform init -backend-config=./init-tfvars/dev.tfvars"
+    }
+    stage ("Terraform plan") {
+        sh "terraform plan -var-file=./apply-tfvars/dev.tfvars"
     }
 }
