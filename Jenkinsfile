@@ -5,7 +5,7 @@ node ("jdk17")
     }
         withCredentials([[
     $class: 'AmazonWebServicesCredentialsBinding',
-    credentialsId: "AWS-Credentials-Harcoded",
+    credentialsId: "AWS-Credentials-Hardcoded",
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
     ]]) {
