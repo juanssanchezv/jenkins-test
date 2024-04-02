@@ -22,6 +22,6 @@ node ("jdk17")
     }
 
     stage ("Dockerbuild") {
-        sh "docker build Dockerfile"
+        sh "docker build - < Dockerfile"
     }
 }
