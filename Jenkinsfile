@@ -16,5 +16,12 @@ node ("jdk17")
         stage ("Terraform plan") {
             sh "terraform plan -var-file=./apply-tfvars/dev.tfvars"
         }
+        stage ("Show ENV"){
+            sh "env | sort"
+        }
+    }
+
+    stage ("Dockerbuild") {
+        sh "docker build Dockerfile"
     }
 }
