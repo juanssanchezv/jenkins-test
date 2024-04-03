@@ -5,6 +5,7 @@ provider "aws" {
       "Name"        = var.owner
       "ServiceName" = var.service_name
       "Provisioner" = "Terraform"
+      "bootcamp"    = "devops"
     }
   }
 

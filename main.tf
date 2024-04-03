@@ -1,10 +1,11 @@
 resource "aws_vpc" "main" {
-  cidr_block = "16.0.0.0/16"
+  cidr_block           = "16.0.0.0/16"
   enable_dns_hostnames = true
   tags = {
     "Name"        = "${var.owner}-vpc"
     "ServiceName" = var.service_name
     "Provisioner" = "Terraform"
+    "bootcamp"    = "devops"
   }
 }
 
@@ -12,9 +13,10 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    "Name" = "${var.owner}-igw"
+    "Name"        = "${var.owner}-igw"
     "ServiceName" = var.service_name
     "Provisioner" = "Terraform"
+    "bootcamp"    = "devops"
   }
 }
 
@@ -27,9 +29,10 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    "Name" = "${var.owner}-public-rt"
+    "Name"        = "${var.owner}-public-rt"
     "ServiceName" = var.service_name
     "Provisioner" = "Terraform"
+    "bootcamp"    = "devops"
   }
 }
 
@@ -41,12 +44,13 @@ resource "aws_route_table_association" "subnet" {
 resource "aws_subnet" "main" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "16.0.1.0/24"
-  
+
 
   tags = {
     "Name"        = "${var.owner}-subnet"
     "ServiceName" = var.service_name
     "Provisioner" = "Terraform"
+    "bootcamp"    = "devops"
   }
 }
 
@@ -54,12 +58,13 @@ resource "aws_security_group" "jenkins_sg" {
   name        = "${var.owner}-${var.service_name}-webserver-sg"
   description = "Security Group for Jenkins Instance"
   vpc_id      = aws_vpc.main.id
-  
+
 
   tags = {
     "Name"        = "${var.owner}-sg"
     "ServiceName" = var.service_name
     "Provisioner" = "Terraform"
+    "bootcamp"    = "devops"
   }
 }
 
@@ -95,11 +100,11 @@ resource "aws_instance" "jenkins" {
   ami           = "ami-0c101f26f147fa7fd"
   instance_type = "t2.micro"
 
-  key_name        = "juan-jenkins"
-  vpc_security_group_ids = [aws_security_group.jenkins_sg.id]
-  subnet_id = aws_subnet.main.id
+  key_name                    = "juan-jenkins"
+  vpc_security_group_ids      = [aws_security_group.jenkins_sg.id]
+  subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
-  user_data       = <<-EOF
+  user_data                   = <<-EOF
                     #!/bin/bash
                     # Install Jenkins
                     sudo yum update -y
@@ -114,6 +119,7 @@ resource "aws_instance" "jenkins" {
     "Name"        = "${var.owner}-${var.service_name}"
     "ServiceName" = var.service_name
     "Provisioner" = "Terraform"
+    "bootcamp"    = "devops"
   }
 }
 
