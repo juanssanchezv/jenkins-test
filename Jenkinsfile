@@ -1,4 +1,4 @@
-@Library(cloudcampSharedLibrary)_
+@Library('cloudcampSharedLibrary')_
 
 node ("jdk17")
 {
