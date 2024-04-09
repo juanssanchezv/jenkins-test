@@ -1,8 +1,10 @@
+@Library(cloudcampSharedLibrary)_
+
 node ("jdk17")
 {
     err =  null
     try {
-        checkout('*/master', 'https://github.com/juanssanchezv/jenkins-test.git')
+        checkoutFromRepo('*/master', 'https://github.com/juanssanchezv/jenkins-test.git')
         withCredentials([[
             $class: 'AmazonWebServicesCredentialsBinding',
             credentialsId: "AWS-Credentials-Hardcoded",
@@ -28,18 +30,6 @@ node ("jdk17")
         if(err){
             throw err
         }
-    }
-}
-
-def checkout(branch, repoUrl, credentials=""){
-    configs = [
-        url: repoUrl
-    ]
-    if(credentials) {
-        config['credentialsId'] = credentials
-    }
-    stage ("Checkout"){
-        checkout scmGit(branches: [[name: branch]], extensions: [], userRemoteConfigs: [configs])
     }
 }
 
