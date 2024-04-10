@@ -1,0 +1,10 @@
+@Library('cloudcampSharedLibrary') _
+
+config = [
+    branch: 'master',
+    repoUrl: 'https://github.com/juanssanchezv/jenkins-test.git',
+    filePathInit: './init-tfvars/dev.tfvars',
+    filePathApply: './apply-tfvars/dev.tfvars'
+]
+
+terraformPipeline(config)
