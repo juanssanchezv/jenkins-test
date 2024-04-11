@@ -1,6 +1,13 @@
 
 @Library('cloudcampSharedLibrary') _
 
+config = [
+    branch: 'master',
+    repoUrl: 'https://github.com/juanssanchezv/jenkins-test.git',
+    filePathInit: './init-tfvars/dev.tfvars',
+    filePathApply: './apply-tfvars/dev.tfvars'
+]
+
 node ("jdk17")
 {
     err =  null
@@ -14,11 +21,14 @@ node ("jdk17")
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
             // AWS Code
-            terraformInit('./init-tfvars/dev.tfvars')
+            def tfUtils = new terraformUtils(this)
+            stage ('Terraform Init') {
+                tfUtils.tfInit(config)
+            }
 
-            terraformPlan('./apply-tfvars/dev.tfvars')
+            terraformUtils.terraformPlan(config)
             
-            terraformApply()
+            terraformUtils.terraformApply()
          
         }
 
@@ -31,39 +41,6 @@ node ("jdk17")
         cleanWs()
         if(err){
             throw err
-        }
-    }
-}
-
-def terraformInit (configFilePath="") {
-    stage ("Terraform init") {
-        if (configFilePath){ 
-            sh "terraform init -backend-config=${configFilePath}"
-        }
-        else {
-            sh "terraform init"
-        }
-    }
-}
-
-def terraformPlan (configFilePath="") {
-    stage ("Terraform plan") {
-        if (configFilePath){ 
-            sh "terraform plan -var-file=${configFilePath} -out=tfPlan"
-        }
-        else {
-            sh "terraform plan -out=tfPlan"
-        }
-    }
-}
-
-def terraformApply (configFilePath="") {
-    stage ("Terraform apply") {
-        if (configFilePath){ 
-            sh "terraform apply tfPlan"
-        }
-        else {
-            sh "terraform apply tfPlan"
         }
     }
 }
