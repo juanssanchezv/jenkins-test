@@ -1,5 +1,6 @@
 
 @Library('cloudcampSharedLibrary') _
+@Library('cloudcampSharedLibrary') import la.cloudcamp.TerraformUtils
 
 config = [
     branch: 'master',
