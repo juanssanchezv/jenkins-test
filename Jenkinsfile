@@ -21,7 +21,7 @@ node ("jdk17")
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
             // AWS Code
-            def tfUtils = new terraformUtils(this)
+            def tfUtils = new TerraformUtils(this)
             stage ('Terraform Init') {
                 tfUtils.tfInit(config)
             }
