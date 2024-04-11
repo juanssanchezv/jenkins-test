@@ -27,6 +27,17 @@ node ("jdk17")
                 tfUtils.tfInit(config)
             }
 
+            parallel fmt: {
+                stage('Terraform format'){
+                    sh 'terraform fmt'
+                }
+            }, validate: {
+                stage('Terraform format'){
+                    sh 'terraform validate'
+                }
+            },
+            failFast: false
+
             terraformUtils.terraformPlan(config)
             
             terraformUtils.terraformApply()
